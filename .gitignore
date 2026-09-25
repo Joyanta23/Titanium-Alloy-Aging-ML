@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+*.joblib
+code/main_ml/resistivity/
+code/main_ml/hardness/
+code/ml_completed_v1/
+code/paired_ml/*.csv
+code/paired_ml/*.json
+code/paired_ml/*.png
+code/paired_ml/*.svg
