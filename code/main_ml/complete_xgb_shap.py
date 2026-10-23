@@ -85,8 +85,11 @@ def run():
         plt.close(fig)
         comparison=pd.DataFrame(rows).sort_values('CV_RMSE')
         fig,ax=plt.subplots(figsize=(8,5))
-        ax.barh(comparison.model,comparison.test_R2,color=['#007f86' if a else '#8496a8' for a in comparison.selected])
-        ax.set(xlabel='Held-out row R²',title=f'{name.title()}: fixed-split model comparison')
+        labels=comparison.model.replace({'RandomForest':'Random forest','GradientBoosting':'Gradient boosting','MeanBaseline':'Mean baseline'})
+        bars=ax.barh(labels,comparison.test_RMSE,color=['#007f86' if a else '#8496a8' for a in comparison.selected])
+        ax.bar_label(bars,labels=[f'{v:.4f}' if name=='resistivity' else f'{v:.2f}' for v in comparison.test_RMSE],padding=4)
+        ax.set(xlabel=f'Test RMSE ({unit})',title=f'{name.title()}: model comparison (ordered by training CV RMSE)')
+        ax.margins(x=.18)
         ax.invert_yaxis();fig.tight_layout();fig.savefig(out/'model_comparison.png');plt.close(fig)
         print('COMPARISON',name,json.dumps(rows),flush=True)
         # Explain the selected fitted model, using only training rows as background.

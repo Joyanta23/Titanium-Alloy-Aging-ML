@@ -88,7 +88,7 @@ for v in ['without_rho','with_rho']:
 fig,axes=plt.subplots(1,2,figsize=(11,5))
 for ax,v in zip(axes,['without_rho','with_rho']):
  label=chosen[v];m,cols=models[(v,label)];p=m.predict(X.iloc[te][cols]);mt=metric(y.iloc[te],p)
- ax.scatter(y.iloc[te],p,c='#007f86',s=25);limits=[min(y.iloc[te].min(),p.min()),max(y.iloc[te].max(),p.max())];ax.plot(limits,limits,'k--',lw=1);ax.set(xlabel='Measured hardness (HV)',ylabel='Predicted hardness (HV)',title=f'{label}: {v.replace("_"," ")}\nR²={mt["R2"]:.4f}; RMSE={mt["RMSE"]:.2f} HV')
+ ax.scatter(y.iloc[te],p,c='#007f86',s=25);limits=[min(y.iloc[te].min(),p.min()),max(y.iloc[te].max(),p.max())];ax.plot(limits,limits,'k--',lw=1);ax.set(xlabel='Measured hardness (HV)',ylabel='Predicted hardness (HV)',title=f'{label}: '+('with measured resistivity' if v=='with_rho' else 'without measured resistivity')+f'\nTest R²={mt["R2"]:.4f}; RMSE={mt["RMSE"]:.2f} HV')
 fig.tight_layout()
 for ext in ['png','svg']:fig.savefig(ROOT/f'paired_prediction.{ext}',dpi=200)
 plt.close(fig)
