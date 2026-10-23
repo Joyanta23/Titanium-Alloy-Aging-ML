@@ -1,6 +1,6 @@
-# Titanium alloy aging: resistivity and hardness prediction
+# Beta titanium alloy aging: resistivity and hardness prediction
 
-Code, curated Excel data and selected plots for **“Interpretable Machine Learning of Room-Temperature Electrical Resistivity and Vickers Hardness in Aged Titanium Alloys.”**
+Code, curated Excel data and selected plots for **“Interpretable Machine Learning for Predicting Room-Temperature Electrical Resistivity and Vickers Hardness in Aged Beta Titanium Alloys”**
 
 The literature-based datasets contain **836** room-temperature resistivity rows and **568** Vickers hardness rows. **349** conditions have both measurements. The model comparison uses a fixed 80:20 row split, with five-fold cross-validation on the training rows for model selection. The paired comparison evaluates hardness with and without *measured* resistivity on the same rows. Reported row-split performance does not represent a test on entirely new alloy families.
 
@@ -28,3 +28,9 @@ The journal manuscript is under coauthor review and is not included here. A lice
 On 25 September 2026, all three ML scripts were run from a GitHub-verified copy using Python 3.12 and the pinned scientific packages. The model comparison tables, predictions and included SHAP importance tables reproduced the reference CSVs exactly at their saved precision. The new Colab output cell was also checked locally. This was a local Python execution of the notebook workflow, not a test of Google's hosted Colab service.
 
 The `results/` folder and its Excel workbook contain the reference results. Each notebook run separately exports `Titanium_ML_New_Results.zip`, containing `Summary.csv` and `resistivity/`, `hardness/`, and `paired_hardness/`. These are the fresh outputs; the reference workbook is not silently overwritten.
+
+## Dataset revision
+
+Source labels have been aligned with the manuscript: `Niinomi2002` is now `Ikeda2002`, and `IkedaUeda2017` is now `IkedaUeda2016`. The changes apply to source and curve identifiers in the data and paired predictions. Measurements, row order, model inputs, split and reported scores are unchanged. The full workbook keeps its existing filename so the notebook can locate it.
+
+Model selection uses training CV RMSE. The selected ExtraTrees test scores are R² = 0.9640 and RMSE = 0.0664 µΩ·m for resistivity, and R² = 0.9703 and RMSE = 17.19 HV for hardness. On the paired subset, adding measured resistivity reduces test RMSE from 24.38 to 19.13 HV.

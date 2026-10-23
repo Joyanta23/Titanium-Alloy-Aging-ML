@@ -13,10 +13,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 ROOT=Path(__file__).resolve().parent
-SOURCE=Path(sys.argv[1]) if len(sys.argv)>1 else ROOT.parent/'final_freeze_v11_20260920/Titanium_Aging_RT_Resistivity_Dataset_Frozen_v1.1_2026-09-20.xlsx'
+SOURCE=Path(sys.argv[1]) if len(sys.argv)>1 else ROOT.parents[1]/'data'/'Titanium_Aging_RT_Resistivity_Dataset_Frozen_v1.1_2026-09-20.xlsx'
 def save(name,data): (ROOT/name).write_text(json.dumps(data,indent=2,default=str))
 def metric(y,p):return dict(R2=float(r2_score(y,p)),RMSE=float(mean_squared_error(y,p)**.5),MAE=float(mean_absolute_error(y,p)))
-expected='b1c866e7b231c66665b620c162b7dfbd16f92578bf665fb8d9721c4e3a466385'
+expected='2d2a2adab4af8df21c0b581b77591a131b1b4b536430aba9209e2d02cb7ad7e8'
 assert hashlib.sha256(SOURCE.read_bytes()).hexdigest()==expected
 r=pd.read_excel(SOURCE,'RT_Resistivity');h=pd.read_excel(SOURCE,'Vickers_Hardness')
 keys=['source_id','alloy_system','alloy_code','Ti_wt_pct','Al_wt_pct','Cr_wt_pct','Mn_wt_pct','Fe_wt_pct','Mo_wt_pct','Nb_wt_pct','Ta_wt_pct','Zr_wt_pct','solution_temperature_K','solution_time_ks','aging_temperature_K','aging_time_ks']
