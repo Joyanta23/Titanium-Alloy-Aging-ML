@@ -1,3 +1,4 @@
+"""Compare hardness models with and without measured resistivity on matched conditions."""
 import os
 for k in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS']: os.environ[k]='1'
 from pathlib import Path
@@ -46,7 +47,7 @@ ready=X.assign(record_id_rho=d.record_id_rho,record_id_hv=d.record_id_hv,hardnes
 ready.to_csv(ROOT/'model_ready.csv',index=False)
 etgrid=dict(max_depth=[None,6,12],min_samples_leaf=[1,2,4],max_features=[.7,1.])
 xgrid=dict(n_estimators=[150,300,500],max_depth=[2,3,5],learning_rate=[.03,.08,.15],min_child_weight=[1,3,6],reg_lambda=[1,5,15],subsample=[.8,1.],colsample_bytree=[.8,1.])
-save('protocol.json',dict(seed=42,rows=349,train=len(tr),test=len(te),pair_keys=keys,source_hash=expected,primary='Fixed ExtraTrees n_estimators=200, max_features=.7, same as prior pilot; compare without/with measured rho',secondary='Equal-budget 12-trial searches for ET, RF and XGB for both feature sets; select on CV only',search_spaces=dict(ExtraTrees=etgrid,RandomForest=etgrid,XGBoost=xgrid),caveats=['Pilot test results already viewed; exploratory extension, not a fresh confirmatory test','No interpolation or approximate-time pairing; exact stored conditions, including inherited nominal-time standardization','Same-condition pairing does not prove the same physical specimen','No new-alloy validation; row split permits related curves in both partitions','Measured resistivity is required at inference; predicted rho cannot be substituted with these performance claims','No first-ever or causal claim']))
+save('protocol.json',dict(seed=42,rows=349,train=len(tr),test=len(te),pair_keys=keys,source_hash=expected,primary='Fixed ExtraTrees: 200 trees, max_features=0.7; compare with and without measured resistivity',secondary='12-trial searches for ET, RF and XGB for each feature set; select by training CV RMSE',search_spaces=dict(ExtraTrees=etgrid,RandomForest=etgrid,XGBoost=xgrid),caveats=['Exploratory paired analysis; pilot test results were already available','Exact matching on stored conditions, including standardized nominal aging times','Pairs match reported conditions; specimen identity is not established','Row split: related curves can occur in both train and test sets','The with-resistivity model requires measured resistivity']))
 models={};rows=[]
 for variant,cols in [('without_rho',features),('with_rho',features+['resistivity_uOhm_m'])]:
  for label,m,grid in [('FixedExtraTrees',ExtraTreesRegressor(n_estimators=200,max_features=.7,random_state=42,n_jobs=1),None),('ExtraTrees',ExtraTreesRegressor(n_estimators=200,random_state=42,n_jobs=1),etgrid),('RandomForest',RandomForestRegressor(n_estimators=200,random_state=42,n_jobs=1),etgrid),('XGBoost',XGBRegressor(random_state=42,n_jobs=1,tree_method='hist',objective='reg:squarederror'),xgrid)]:
@@ -58,7 +59,7 @@ for variant,cols in [('without_rho',features),('with_rho',features+['resistivity
   models[(variant,label)]=(m,cols)
   rows.append(dict(variant=variant,model=label,CV_RMSE=score,CV_mean_fold_RMSE=meanrmse,params=params))
   print('FIT',variant,label,score,flush=True)
-# Lock selection before new test predictions. Primary remains the prespecified fixed-model comparison.
+# Select tuned models by training CV RMSE; retain the fixed-model comparison.
 chosen={v:min([q for q in rows if q['variant']==v and q['model']!='FixedExtraTrees'],key=lambda q:q['CV_RMSE'])['model'] for v in ['without_rho','with_rho']}
 save('selection_before_test.json',chosen)
 preds=ready[['record_id_rho','record_id_hv','split','hardness_HV']].copy()
