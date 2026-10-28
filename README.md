@@ -21,16 +21,16 @@ The notebook runs `code/main_ml/train.py`, `code/main_ml/complete_xgb_shap.py`, 
 
 Each row in the full workbook retains source identifiers. The nine cited source publications are listed in the manuscript; the publishers' PDFs are **not** part of this repository. The data were transcribed or digitized from the cited literature, including with WebPlotDigitizer (automeris.io). Refer to the source register and cite the original studies when reusing their measurements.
 
-The journal manuscript is under coauthor review and is not included here. A license for repository reuse has not yet been selected by the authors; agree on one before making this repository public.
+No reuse license has been selected. Public availability does not grant an open-source or open-data license.
 
-## Reproducibility check
+## Reproducing the results
 
-On 25 September 2026, all three ML scripts were run from a GitHub-verified copy using Python 3.12 and the pinned scientific packages. The model comparison tables, predictions and included SHAP importance tables reproduced the reference CSVs exactly at their saved precision. The new Colab output cell was also checked locally. This was a local Python execution of the notebook workflow, not a test of Google's hosted Colab service.
+Use the pinned packages and run the three scripts in notebook order. A local Python 3.12 run reproduced the reference CSVs at their saved precision; hosted Google Colab execution has not been verified. New runs export `Titanium_ML_New_Results.zip` separately from the reference `results/` folder.
 
-The `results/` folder and its Excel workbook contain the reference results. Each notebook run separately exports `Titanium_ML_New_Results.zip`, containing `Summary.csv` and `resistivity/`, `hardness/`, and `paired_hardness/`. These are the fresh outputs; the reference workbook is not silently overwritten.
+XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. Pairs match reported processing conditions, which does not establish that both measurements came from the same specimen. SHAP values describe model associations.
 
-## Dataset revision
+The full workbook retains its original filename for compatibility. Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged.
 
-Source labels have been aligned with the manuscript: `Niinomi2002` is now `Ikeda2002`, and `IkedaUeda2017` is now `IkedaUeda2016`. The changes apply to source and curve identifiers in the data and paired predictions. Measurements, row order, model inputs, split and reported scores are unchanged. The full workbook keeps its existing filename so the notebook can locate it.
+## Selected results
 
-Model selection uses training CV RMSE. The selected ExtraTrees test scores are R² = 0.9640 and RMSE = 0.0664 µΩ·m for resistivity, and R² = 0.9703 and RMSE = 17.19 HV for hardness. On the paired subset, adding measured resistivity reduces test RMSE from 24.38 to 19.13 HV.
+Model selection uses training CV RMSE. ExtraTrees test scores are R² = 0.9640 and RMSE = 0.0664 µΩ·m for resistivity, and R² = 0.9703 and RMSE = 17.19 HV for hardness. On the paired subset, adding measured resistivity reduces test RMSE from 24.38 to 19.13 HV.
