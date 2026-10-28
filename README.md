@@ -27,6 +27,8 @@ No reuse license has been selected. The repository is private pending the author
 
 Use the pinned packages and run the three scripts in notebook order. The workflow was tested locally with Python 3.12 and in hosted Google Colab. Local results match the reference tables. In Colab, selected-model scores and all non-KNN comparisons match; the KNN baseline scores differ. The notebook reports those differences in `reference_comparison.csv` and checks all other models against the reference tables. New runs export `Titanium_ML_New_Results.zip` separately from the reference `results/` folder.
 
+Near-equal distances at the neighbour cutoff occur in these data; numerical differences in how those ties are resolved are a possible reason for the KNN variation.
+
 XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. SHAP values describe model associations.
 
 The full workbook retains its original filename for compatibility. Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged.
