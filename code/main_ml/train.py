@@ -1,6 +1,6 @@
-"""Reproducible initial comparison. XGBoost/SHAP packages unavailable in original runtime.
-Run: python train.py --input path/to/frozen.xlsx
-No seed search, target-driven exclusions, or external/alloy-held-out validation.
+"""Train seven baseline models for resistivity and hardness.
+Run: python train.py --input path/to/dataset.xlsx
+Run complete_xgb_shap.py next to add XGBoost and SHAP analysis.
 """
 import os
 for key in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS']:
@@ -42,7 +42,7 @@ def models():
       'MeanBaseline':(DummyRegressor(),{})}
 
 def run(input_path):
-    save(ROOT/'protocol.json',dict(seed=SEED,split='80:20 shuffled rows, fixed seed 42',tuning='Training-only shuffled 5-fold CV, 12 configurations/model maximum',selection='Minimum training CV RMSE, locked before inspecting test scores',claim='Within represented alloy/processing domain; not unseen-alloy performance',missing='Only unlisted major alloying elements mapped to design-zero; unknown within-system concentration is an error. Raw workbook unchanged.',descriptors='e/a and solute_at deferred; direct elements retained for interpretable attribution',excluded_features='DOI, source ID, curve ID, alloy label, target-derived features, sparse O/H/N; solution_time constant 3.6 ks',packages_pending=['xgboost','shap'],input_sha256=hashlib.sha256(input_path.read_bytes()).hexdigest()))
+    save(ROOT/'protocol.json',dict(seed=SEED,split='80:20 shuffled rows, fixed seed 42',tuning='Training-only shuffled 5-fold CV, 12 configurations/model maximum',selection='Minimum training CV RMSE',claim='Within represented alloy/processing domain; not unseen-alloy performance',missing='Only unlisted major alloying elements mapped to design-zero; unknown within-system concentration is an error. Raw workbook unchanged.',excluded_features='DOI, source ID, curve ID, alloy label, target-derived features, sparse O/H/N; solution_time constant 3.6 ks',input_sha256=hashlib.sha256(input_path.read_bytes()).hexdigest()))
     all_results=[]
     for sheet,target,name in [('RT_Resistivity','resistivity_uOhm_m','resistivity'),('Vickers_Hardness','hardness_HV','hardness')]:
         out=ROOT/name;out.mkdir(exist_ok=True)
@@ -72,6 +72,7 @@ def run(input_path):
         for n,(_,v) in enumerate(cv.split(tr)):folds[tr[v]]=n
         pd.DataFrame(dict(record_id=d.record_id,fold=folds)).to_csv(out/'training_folds.csv',index=False)
         rows=[];fitted={}
+        # Use the same scaling pipeline for all models in this comparison.
         for label,(model,grid) in models().items():
             pipe=Pipeline([('scale',StandardScaler()),('regressor',TransformedTargetRegressor(regressor=model,transformer=StandardScaler()))])
             space={'regressor__regressor__'+k:v for k,v in grid.items()}
@@ -97,11 +98,11 @@ def run(input_path):
         unit='µΩ·m' if name=='resistivity' else 'HV'
         fig,ax=plt.subplots(figsize=(6,5))
         ax.scatter(y.iloc[tr],pred[tr],alpha=.3,s=16,label='Training fit',color='gray')
-        ax.scatter(y.iloc[te],pred[te],alpha=.85,s=24,label='Held-out rows',color='#007f86')
+        ax.scatter(y.iloc[te],pred[te],alpha=.85,s=24,label='Test rows',color='#007f86')
         lo=min(y.min(),pred.min());hi=max(y.max(),pred.max());ax.plot([lo,hi],[lo,hi],'k--',lw=1)
-        ax.set(xlabel=f'Measured ({unit})',ylabel=f'Predicted ({unit})',title=f'{name.title()}: {chosen}\nHeld-out row R² = {selected["test_R2"]:.4f}')
+        ax.set(xlabel=f'Measured ({unit})',ylabel=f'Predicted ({unit})',title=f'{name.title()}: {chosen}\nTest R² = {selected["test_R2"]:.4f}')
         ax.legend();fig.tight_layout();fig.savefig(out/'prediction.png',dpi=180);plt.close(fig)
-        summary=dict(target=name,rows=len(d),train_rows=len(tr),test_rows=len(te),selected_model=chosen,results=selected,features=X.columns.tolist(),status='Initial comparison; XGBoost and SHAP pending dependency availability',dropped_rows=0)
+        summary=dict(target=name,rows=len(d),train_rows=len(tr),test_rows=len(te),selected_model=chosen,results=selected,features=X.columns.tolist(),status='Seven-model comparison complete; run complete_xgb_shap.py for XGBoost and SHAP',dropped_rows=0)
         save(out/'summary.json',summary);all_results.append(summary)
         print('RESULT',json.dumps(summary),flush=True)
     save(ROOT/'summary.json',all_results)
