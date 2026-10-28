@@ -5,7 +5,7 @@ Writes ../ml_completed_v1, leaving the initial run untouched.
 import os
 for k in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS']:
     os.environ[k]='1'
-import json, hashlib, platform, shutil
+import json, platform, shutil
 from pathlib import Path
 import numpy as np
 import pandas as pd
