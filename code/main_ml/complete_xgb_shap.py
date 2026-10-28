@@ -1,4 +1,4 @@
-"""Continue the locked initial run without changing its data, folds or split.
+"""Add XGBoost and SHAP using the data split and folds saved by train.py.
 Run from any directory: python complete_xgb_shap.py
 Writes ../ml_completed_v1, leaving the initial run untouched.
 """
@@ -33,9 +33,9 @@ def friendly(c):
 
 def run():
     OUT.mkdir(exist_ok=True)
-    # Search space committed before test predictions. One fixed 12-trial search.
+    # Fixed 12-trial XGBoost search on the saved training folds.
     space=dict(n_estimators=[150,300,500],max_depth=[2,3,5],learning_rate=[.03,.08,.15],min_child_weight=[1,3,6],reg_lambda=[1,5,15],subsample=[.8,1.],colsample_bytree=[.8,1.])
-    save(OUT/'continuation_protocol.json',dict(seed=SEED,n_iter=12,search_space=space,selection='Minimum training CV RMSE across all eight models',prior_test_visibility='Initial seven-model test scores were already reported. XGBoost uses the prespecified search space and original folds; no test-driven tuning or split changes.',SHAP='Interventional TreeSHAP for selected tree models; training-only background, explanations on test rows. Contributions converted to original target units.',descriptors='Same eleven direct features as initial run. e/a and solute atomic percent remain deferred.'))
+    save(OUT/'continuation_protocol.json',dict(seed=SEED,n_iter=12,search_space=space,selection='Minimum training CV RMSE across all eight models',prior_test_visibility='XGBoost was added after the seven-model comparison; it uses the same split and folds, with tuning based on training CV.',SHAP='Interventional TreeSHAP for selected tree models; training-only background, explanations on test rows. Contributions converted to original target units.',descriptors='Same eleven input features as train.py.'))
     summaries=[]
     for name in ['resistivity','hardness']:
         src=INITIAL/name;out=OUT/name;out.mkdir(exist_ok=True)
@@ -77,7 +77,7 @@ def run():
         unit='µΩ·m' if name=='resistivity' else 'HV'
         fig,ax=plt.subplots(figsize=(6,5))
         ax.scatter(y.iloc[tr],pred[tr],s=14,alpha=.25,c='gray',label='Training fit')
-        ax.scatter(y.iloc[te],pred[te],s=25,alpha=.85,c='#007f86',label='Held-out rows')
+        ax.scatter(y.iloc[te],pred[te],s=25,alpha=.85,c='#007f86',label='Test rows')
         lo=min(y.min(),pred.min());hi=max(y.max(),pred.max());ax.plot([lo,hi],[lo,hi],'k--',lw=1)
         ax.set(xlabel=f'Measured ({unit})',ylabel=f'Predicted ({unit})',title=f'{name.title()}: {chosen}\nTest R² = {selected["test_R2"]:.4f}; RMSE = {selected["test_RMSE"]:.4f} {unit}')
         ax.legend(frameon=False);fig.tight_layout()
@@ -105,7 +105,7 @@ def run():
         assert np.allclose(base+values.sum(axis=1),pred[te],rtol=1e-5,atol=1e-5),error
         E=shap.Explanation(values=values,base_values=base,data=X.iloc[te].to_numpy(),feature_names=[friendly(c) for c in features])
         shap.plots.beeswarm(E,max_display=len(features),show=False,plot_size=(9,6))
-        plt.title(f'{name.title()} | {chosen} | held-out rows');plt.xlabel(f'SHAP contribution ({unit})');plt.tight_layout()
+        plt.title(f'{name.title()} | {chosen} | test rows');plt.xlabel(f'SHAP contribution ({unit})');plt.tight_layout()
         for ext in ['png','svg']:plt.savefig(out/f'shap_beeswarm.{ext}',bbox_inches='tight')
         plt.close('all')
         importance=pd.DataFrame(dict(feature=features,mean_abs_SHAP=np.abs(values).mean(0))).sort_values('mean_abs_SHAP',ascending=False)
@@ -122,8 +122,8 @@ def run():
         for ax,c in zip(axes.flat,importance.head(4).feature):
             i=features.index(c);ax.scatter(X.iloc[te][c],values[:,i],s=22,alpha=.75,c='#007f86');ax.axhline(0,lw=.7,c='gray')
             ax.set(xlabel=friendly(c),ylabel=f'SHAP ({unit})')
-        fig.suptitle(f'{name.title()}: model associations, not causal effects');fig.tight_layout();fig.savefig(out/'shap_dependence.png');plt.close(fig)
-        save(out/'shap_method.json',dict(method='Interventional TreeSHAP',background_record_ids=d.record_id.iloc[tr[bgix]].tolist(),explained_rows=len(te),target_unit=unit,additivity_max_absolute_error=error,caveat='Model-specific associations, not isolated causal metal effects. Correlated compositions/processing and alloy-family coverage influence attribution.'))
+        fig.suptitle(f'{name.title()}: SHAP dependence');fig.tight_layout();fig.savefig(out/'shap_dependence.png');plt.close(fig)
+        save(out/'shap_method.json',dict(method='Interventional TreeSHAP',background_record_ids=d.record_id.iloc[tr[bgix]].tolist(),explained_rows=len(te),target_unit=unit,additivity_max_absolute_error=error,caveat='SHAP describes model associations; correlated composition and processing inputs affect attribution.'))
         s=dict(target=name,selected_model=chosen,rows=len(d),train_rows=len(tr),test_rows=len(te),metrics=selected,xgboost=row,shap_top_features=importance.head(5).to_dict('records'),dropped_rows=0)
         save(out/'summary.json',s);summaries.append(s)
         print('DONE',name,chosen,selected['test_R2'],'SHAP ERROR',error,flush=True)
