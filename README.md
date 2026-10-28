@@ -21,13 +21,13 @@ The notebook runs `code/main_ml/train.py`, `code/main_ml/complete_xgb_shap.py`, 
 
 Each row in the full workbook retains source identifiers. The nine cited source publications are listed in the manuscript; the publishers' PDFs are **not** part of this repository. The data were transcribed or digitized from the cited literature, including with WebPlotDigitizer (automeris.io). Refer to the source register and cite the original studies when reusing their measurements.
 
-No reuse license has been selected. Public availability does not grant an open-source or open-data license.
+No reuse license has been selected. The repository is private pending the authors' licensing decision.
 
 ## Reproducing the results
 
-Use the pinned packages and run the three scripts in notebook order. A local Python 3.12 run reproduced the reference CSVs at their saved precision; hosted Google Colab execution has not been verified. New runs export `Titanium_ML_New_Results.zip` separately from the reference `results/` folder.
+Use the pinned packages and run the three scripts in notebook order. The workflow was tested locally with Python 3.12 and in hosted Google Colab. Local results match the reference tables. In Colab, selected-model scores and all non-KNN comparisons match; the KNN baseline scores differ. The notebook reports those differences in `reference_comparison.csv` and checks all other models against the reference tables. New runs export `Titanium_ML_New_Results.zip` separately from the reference `results/` folder.
 
-XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. Pairs match reported processing conditions, which does not establish that both measurements came from the same specimen. SHAP values describe model associations.
+XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. SHAP values describe model associations.
 
 The full workbook retains its original filename for compatibility. Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged.
 
