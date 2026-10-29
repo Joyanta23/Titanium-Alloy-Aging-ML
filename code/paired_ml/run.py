@@ -141,7 +141,7 @@ save(
         secondary="12-trial searches for ET, RF and XGB for each feature set; select by training CV RMSE",
         search_spaces=dict(ExtraTrees=etgrid, RandomForest=etgrid, XGBoost=xgrid),
         caveats=[
-            "Exploratory paired analysis; pilot test results were already available",
+            "Exploratory paired analysis after viewing pilot test results",
             "Exact matching on stored conditions, including standardized nominal aging times",
             "Pairs match reported conditions; specimen identity is not established",
             "Row split: related curves can occur in both train and test sets",
