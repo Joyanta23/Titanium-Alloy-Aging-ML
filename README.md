@@ -7,7 +7,7 @@ The literature-based datasets contain **836** room-temperature resistivity rows 
 ## Start here
 
 1. Open `data/Titanium_Simple_ML_Dataset.xlsx` for the three main sheets: `Resistivity`, `Hardness`, and `Paired_Rho_Hardness`.
-2. Open `data/Titanium_Aging_RT_Resistivity_Dataset_Frozen_v1.1_2026-09-20.xlsx` for the full dataset, its source register, scope decisions and data dictionary.
+2. Open `data/Titanium_Aging_Dataset_v1.2.xlsx` for the full dataset, its source register, scope decisions and data dictionary.
 3. Read `results/Titanium_ML_Results.xlsx` or view the plots under `results/` for the reported findings.
 4. To rerun the models, download this repository as a ZIP, open `Titanium_ML_Google_Colab.ipynb` in Google Colab, run the first cell, upload the downloaded ZIP, then run the remaining cells in order. The final cell displays the new scores and prediction plots, checks scores against the included reference results, and downloads `Titanium_ML_New_Results.zip`.
 
@@ -21,17 +21,17 @@ The notebook runs `code/main_ml/train.py`, `code/main_ml/complete_xgb_shap.py`, 
 
 Each row in the full workbook retains source identifiers. The nine cited source publications are listed in the manuscript; the publishers' PDFs are **not** part of this repository. The data were transcribed or digitized from the cited literature, including with WebPlotDigitizer (automeris.io). Refer to the source register and cite the original studies when reusing their measurements.
 
-No reuse license has been selected. The repository is private pending the authors' licensing decision.
+Code is released under the MIT License (see LICENSE). The authors' dataset compilation, annotations and original figures are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), to the extent the authors hold the relevant rights. This license does not cover third-party material or grant rights owned by the cited publishers or researchers. Cite the original studies and this repository when reusing the data.
 
 ## Reproducing the results
 
 Use the pinned packages and run the three scripts in notebook order. The workflow was tested locally with Python 3.12 and in hosted Google Colab. Local results match the reference tables. In Colab, selected-model scores and all non-KNN comparisons match; the KNN baseline scores differ. The notebook reports those differences in `reference_comparison.csv` and checks all other models against the reference tables. New runs export `Titanium_ML_New_Results.zip` separately from the reference `results/` folder.
 
-Near-equal distances at the neighbour cutoff occur in these data; numerical differences in how those ties are resolved are a possible reason for the KNN variation.
+Near-equal distances at the neighbor cutoff occur in these data; numerical differences in how those ties are resolved are a possible reason for the KNN variation.
 
 XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. SHAP values describe model associations.
 
-The full workbook retains its original filename for compatibility. Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged.
+Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged. Version 1.2 simplifies the documentation and corrects the remaining Ikeda/Ueda year label; it does not change numerical data.
 
 ## Selected results
 
