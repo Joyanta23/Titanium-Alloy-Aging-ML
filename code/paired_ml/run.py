@@ -43,7 +43,7 @@ def metric(y, p):
     )
 
 
-expected = "8e385adac25aa74bf8d464577f36a3a55828d0d15dd885af3979307b671dbb77"
+expected = "d9d69fe38ae2f999a393d4edfcc67d0b90ee70e3e65c38e3560143e82d163fbc"
 assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == expected
 r = pd.read_excel(SOURCE, "RT_Resistivity")
 h = pd.read_excel(SOURCE, "Vickers_Hardness")
