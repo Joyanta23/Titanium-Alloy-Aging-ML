@@ -1,6 +1,6 @@
 # Beta titanium alloy aging: resistivity and hardness prediction
 
-Code, curated Excel data and selected plots for **“Interpretable Machine Learning for Predicting Room-Temperature Electrical Resistivity and Vickers Hardness in Aged Beta Titanium Alloys”**
+Code, curated Excel data and selected plots for **“Machine Learning Prediction of Resistivity and Hardness in Isothermally Aged β Titanium Alloys: Added Value of Measured Resistivity”**
 
 The literature-based datasets contain **836** room-temperature resistivity rows and **568** Vickers hardness rows. **349** conditions have both measurements. The model comparison uses a fixed 80:20 row split, with five-fold cross-validation on the training rows for model selection. The paired comparison evaluates hardness with and without *measured* resistivity on the same rows.
 
@@ -29,7 +29,7 @@ Use the pinned packages and run the three scripts in notebook order. The workflo
 
 Near-equal distances at the neighbor cutoff occur in these data; numerical differences in how those ties are resolved are a possible reason for the KNN variation.
 
-XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired analysis is exploratory. SHAP values describe model associations.
+XGBoost was added after the initial seven-model comparison, using the same split and training folds. The paired comparison followed the pilot analysis. SHAP values describe model associations.
 
 Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` and `IkedaUeda2017` → `IkedaUeda2016`. Numerical data, row order and splits were unchanged. Version 1.2 simplifies the documentation and corrects the remaining Ikeda/Ueda year label; it does not change numerical data.
 
