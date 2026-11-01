@@ -2,7 +2,7 @@
 
 Code, curated Excel data and selected plots for **“Interpretable Machine Learning for Predicting Room-Temperature Electrical Resistivity and Vickers Hardness in Aged Beta Titanium Alloys”**
 
-The literature-based datasets contain **836** room-temperature resistivity rows and **568** Vickers hardness rows. **349** conditions have both measurements. The model comparison uses a fixed 80:20 row split, with five-fold cross-validation on the training rows for model selection. The paired comparison evaluates hardness with and without *measured* resistivity on the same rows. Reported row-split performance does not represent a test on entirely new alloy families.
+The literature-based datasets contain **836** room-temperature resistivity rows and **568** Vickers hardness rows. **349** conditions have both measurements. The model comparison uses a fixed 80:20 row split, with five-fold cross-validation on the training rows for model selection. The paired comparison evaluates hardness with and without *measured* resistivity on the same rows.
 
 ## Start here
 

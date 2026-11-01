@@ -144,7 +144,6 @@ save(
             "Exploratory paired analysis after viewing pilot test results",
             "Exact matching on stored conditions, including standardized nominal aging times",
             "Pairs match reported conditions; specimen identity is not established",
-            "Row split: related curves can occur in both train and test sets",
             "The with-resistivity model requires measured resistivity",
         ],
     ),

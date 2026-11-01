@@ -102,7 +102,6 @@ def run(input_path):
             split="80:20 shuffled rows, fixed seed 42",
             tuning="Training-only shuffled 5-fold CV, 12 configurations/model maximum",
             selection="Minimum training CV RMSE",
-            claim="Within represented alloy/processing domain; not unseen-alloy performance",
             missing="Only unlisted major alloying elements mapped to design-zero; unknown within-system concentration is an error. Raw workbook unchanged.",
             excluded_features="DOI, source ID, curve ID, alloy label, target-derived features, sparse O/H/N; solution_time constant 3.6 ks",
             input_sha256=hashlib.sha256(input_path.read_bytes()).hexdigest(),
