@@ -1,0 +1,25 @@
+dataset,inputs,R2,RMSE
+Resistivity,All inputs,0.9,0.116
+Resistivity,No solution T,0.9,0.1161
+Resistivity,No aging T,0.601,0.2316
+Resistivity,No aging time,0.634,0.2217
+Resistivity,No aging T and time,0.507,0.2575
+Resistivity,No composition,0.46,0.2693
+Hardness,All inputs,0.74,51.0487
+Hardness,No solution T,0.743,50.6803
+Hardness,No aging T,0.049,97.5894
+Hardness,No aging time,0.595,63.6534
+Hardness,No aging T and time,-0.031,101.5935
+Hardness,No composition,0.499,70.855
+Paired without rho,All inputs,0.714,57.4787
+Paired without rho,No solution T,0.707,58.1715
+Paired without rho,No aging T,-0.032,109.18
+Paired without rho,No aging time,0.663,62.382
+Paired without rho,No aging T and time,-0.032,109.1883
+Paired without rho,No composition,0.553,71.8675
+Paired with rho,All inputs,0.803,47.7219
+Paired with rho,No solution T,0.808,47.0562
+Paired with rho,No aging T,0.477,77.7605
+Paired with rho,No aging time,0.712,57.729
+Paired with rho,No aging T and time,0.356,86.2346
+Paired with rho,No composition,0.684,60.4536

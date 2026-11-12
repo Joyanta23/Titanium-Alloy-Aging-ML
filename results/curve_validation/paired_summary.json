@@ -1,0 +1,24 @@
+{
+  "repeats": 10,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "mean_rmse_without_rho_HV": 61.66674539370804,
+  "mean_rmse_with_rho_HV": 58.714220025482234,
+  "reduction_of_mean_rmse_pct": 4.787872863040798,
+  "repeats_improved": 6,
+  "curves_improved": 21,
+  "curves": 27,
+  "wilcoxon_statistic": 98.0,
+  "wilcoxon_p_two_sided": 0.028018027544021606,
+  "test_unit": "Per-curve RMSE averaged over repeats, paired with/without resistivity"
+}

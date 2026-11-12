@@ -36,3 +36,10 @@ Source labels were corrected on 23 October 2026: `Niinomi2002` → `Ikeda2002` a
 ## Selected results
 
 Model selection uses training CV RMSE. ExtraTrees test scores are R² = 0.9640 and RMSE = 0.0664 µΩ·m for resistivity, and R² = 0.9703 and RMSE = 17.19 HV for hardness. On the paired subset, adding measured resistivity reduces test RMSE from 24.38 to 19.13 HV.
+
+
+## Additional curve-grouped validation
+
+The additional analyses use whole aging curves as the held-out units. Code and commands are in [code/curve_validation](code/curve_validation/README.md); reference tables and predictions are in [results/curve_validation](results/curve_validation/README.md). These results assess unseen aging curves in the alloy systems represented by the dataset.
+
+Across ten fold assignments, adding measured resistivity reduced mean paired hardness RMSE from 61.67 to 58.71 HV (4.8%). RMSE improved in six of ten runs. Comparing each curve's RMSE averaged across the ten runs, 21 of 27 curves improved (two-sided Wilcoxon signed-rank p = 0.0280). The seven-model comparison uses one fold assignment; ablation and learning curves use fixed ExtraTrees settings. The original row-split results remain above.

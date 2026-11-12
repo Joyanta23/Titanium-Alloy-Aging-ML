@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-12",
+  "python": "3.12",
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit-learn": "1.8.0",
+    "openpyxl": "3.1.5",
+    "joblib": "1.5.3"
+  },
+  "xgboost_all_models_run": "3.4.1",
+  "input_sha256": "05c7e9f95ec602dd4bea681bee304c356cfeb26cac53c1c33acb6affac2fb6c7",
+  "reference_protocol": {
+    "n_estimators": 200,
+    "outer_folds": 5,
+    "inner_folds": 3,
+    "tuning_score": "neg_root_mean_squared_error",
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "repeated_outer_shuffle": true,
+    "model_seed": "same as repeat seed",
+    "single_model_comparison_seed": 42,
+    "single_model_outer_shuffle": false
+  },
+  "execution": "Reference computations used task-level parallelism with one thread per fitted model. The published runner executes tasks sequentially."
+}
