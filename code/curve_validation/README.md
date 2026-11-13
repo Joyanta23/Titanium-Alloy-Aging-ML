@@ -14,6 +14,7 @@ python code/curve_validation/run.py summary
 python code/curve_validation/run.py models
 python code/curve_validation/run.py ablation
 python code/curve_validation/run.py learning
+python code/curve_validation/resistivity_levels.py --jobs 4
 ```
 
 Run these commands from the repository root. Results are written to `curve_validation_output/`; reference results under `results/curve_validation/` are preserved. Use `--output PATH` to choose another directory. The complete nested analyses can take several hours on a laptop. The `summary` task needs the predictions and scores produced by `repeated` in the same output directory.
@@ -27,6 +28,8 @@ Run these commands from the repository root. Results are written to `curve_valid
 - The seven-regressor comparison and mean baseline use one unshuffled five-fold assignment, with model seed 42. Ridge, KNN and SVR scaling is fitted within the training folds through pipelines. Model-specific grids are defined in `all_models`.
 - Ablation: fixed ExtraTrees settings (200 trees, `max_features=0.7`, seed 42), five unshuffled curve-grouped folds. Inputs are removed without retuning.
 - Learning curves: ten GroupShuffleSplit assignments, seeds 0–9, holding out 20% of curves. Each assignment uses nested subsets of the remaining training curves at fractions 0.2–1.0. ExtraTrees settings are fixed as in ablation. The reference file retains its original four columns; rows within each dataset occur in repeat order, with five fractions per repeat.
+
+- Stricter resistivity grouping (`resistivity_levels.py`): the same nested ExtraTrees tuning, with compositions (28 groups, shuffled five-fold GroupKFold, seeds 1–10) or alloy systems (10 groups, leave-one-group-out, ExtraTrees seeds 1–10) as groups. Inner folds use the same grouping. A composition is the set of eight wt.% values rounded to three decimals.
 
 ## Paired statistics
 

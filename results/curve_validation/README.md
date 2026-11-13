@@ -11,8 +11,11 @@ Computed on 12 November 2026 using the workbook and protocol recorded in `refere
 | `all_models_verified.csv` | Seven regressors and a mean baseline, one curve-grouped fold assignment |
 | `ablation.csv` | Fixed-setting ExtraTrees scores after removing inputs |
 | `learning.csv` | Fixed-setting learning curves, ten training/held-out curve assignments |
+| `resistivity_levels.csv` | Ten-repeat resistivity scores with composition and alloy-system groups |
 | `reference_environment.json` | Versions, data checksum and reference protocol |
 
 Paired hardness mean RMSE: **61.6667 → 58.7142 HV**, a **4.7879%** reduction. Six of ten repeats improved. Mean error improved in **21 of 27 curves**; the two-sided Wilcoxon test on the 27 paired curve averages gives **p = 0.028018**. These are additional curve-grouped results, distinct from the original row-split results.
 
 Resistivity scores use µΩ·m; hardness scores use HV. R² is dimensionless. The seven-model table uses one fold assignment, and the ablation/learning experiments use fixed settings rather than nested tuning.
+
+`resistivity_levels.csv` was computed with scikit-learn 1.9.1. Rerunning it in the pinned environment may change the values slightly.
